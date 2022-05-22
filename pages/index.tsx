@@ -10,7 +10,6 @@ const Home: NextPage = () => {
         <title>JPA - Reddit Clone</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Header />
     </div>
   )
 }

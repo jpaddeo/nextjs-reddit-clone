@@ -1,19 +1,31 @@
 import '../styles/globals.css'
+
 import type { AppProps } from 'next/app'
+
 import { SessionProvider } from 'next-auth/react'
+
+import { ApolloProvider } from '@apollo/client'
+
+import { Toaster } from 'react-hot-toast'
+
 import Header from '../components/Header'
+
+import client from '../apollo-client'
 
 function RedditCloneApp({
   Component,
   pageProps: { session, ...pageProps },
 }: AppProps) {
   return (
-    <SessionProvider session={session}>
-      <div className="h-screen overflow-y-scroll bg-slate-200">
-        <Header />
-        <Component {...pageProps} />
-      </div>
-    </SessionProvider>
+    <ApolloProvider client={client}>
+      <SessionProvider session={session}>
+        <Toaster />
+        <div className="h-screen overflow-y-scroll bg-slate-200">
+          <Header />
+          <Component {...pageProps} />
+        </div>
+      </SessionProvider>
+    </ApolloProvider>
   )
 }
 

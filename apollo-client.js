@@ -7,7 +7,7 @@ import {
 } from '@apollo/client'
 
 const client = new ApolloClient({
-  uri: 'https://benxi.stepzen.net/api/exacerbated-macaw/__graphql',
+  uri: process.env.NEXT_PUBLIC_STEPZEN_URL,
   headers: {
     Authorization: `ApiKey ${process.env.NEXT_PUBLIC_STEPZEN_KEY}`,
   },

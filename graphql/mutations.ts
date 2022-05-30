@@ -34,3 +34,34 @@ export const INSERT_SUBREDDIT = gql`
     }
   }
 `
+
+export const INSERT_COMMENT = gql`
+  mutation InsertCommentMutation(
+    $post_id: ID!
+    $username: String!
+    $text: String!
+  ) {
+    insertComment(post_id: $post_id, username: $username, text: $text) {
+      id
+      created_at
+      post_id
+      text
+      username
+    }
+  }
+`
+export const INSERT_VOTE = gql`
+  mutation InsertVoteMutation(
+    $post_id: ID!
+    $username: String!
+    $upvote: Boolean!
+  ) {
+    insertVote(post_id: $post_id, username: $username, upvote: $upvote) {
+      id
+      created_at
+      post_id
+      upvote
+      username
+    }
+  }
+`

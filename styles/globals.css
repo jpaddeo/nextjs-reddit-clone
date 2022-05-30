@@ -6,4 +6,10 @@
   .icon {
     @apply h-9 w-6 cursor-pointer rounded-md lg:w-9 lg:p-1 lg:hover:bg-gray-100;
   }
+  .vote-button {
+    @apply h-6 w-6 rounded-md p-1 hover:bg-gray-200;
+  }
+  .post-button {
+    @apply flex cursor-pointer items-center space-x-1 rounded-sm p-2 text-xs font-semibold hover:bg-gray-100;
+  }
 }

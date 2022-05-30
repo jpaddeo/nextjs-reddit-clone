@@ -15,9 +15,11 @@ import client from '../../apollo-client'
 import Avatar from './Avatar'
 
 import { INSERT_POST, INSERT_SUBREDDIT } from '../../graphql/mutations'
-import { GET_SUBREDDIT_BY_TOPIC } from '../../graphql/queries'
+import { GET_ALL_POSTS, GET_SUBREDDIT_BY_TOPIC } from '../../graphql/queries'
 
-type Props = {}
+type Props = {
+  subreddit?: string
+}
 
 type FormData = {
   postTitle: string
@@ -26,7 +28,7 @@ type FormData = {
   subreddit: string
 }
 
-function PostBox({}: Props) {
+function PostBox({ subreddit }: Props) {
   const { data: session } = useSession()
   const [imageBoxOpen, setImageBoxOpen] = useState<boolean>(false)
   const {
@@ -37,7 +39,9 @@ function PostBox({}: Props) {
     formState: { errors },
   } = useForm<FormData>()
 
-  const [addPost] = useMutation(INSERT_POST)
+  const [addPost] = useMutation(INSERT_POST, {
+    refetchQueries: [GET_ALL_POSTS, 'getPostList'],
+  })
   const [addSubreddit] = useMutation(INSERT_SUBREDDIT)
 
   const onSubmit = handleSubmit(async (formData: FormData) => {
@@ -49,7 +53,7 @@ function PostBox({}: Props) {
       } = await client.query({
         query: GET_SUBREDDIT_BY_TOPIC,
         variables: {
-          topic: formData.subreddit,
+          topic: subreddit || formData.subreddit,
         },
       })
 
@@ -105,7 +109,7 @@ function PostBox({}: Props) {
 
   return (
     <form
-      className="sticky top-16 z-50 rounded-md border border-gray-300 bg-white p-2"
+      className="sticky top-16 md:top-20 z-50 rounded-md border border-gray-300 bg-white p-2"
       onSubmit={onSubmit}
     >
       <div className="flex items-center space-x-3">
@@ -115,7 +119,11 @@ function PostBox({}: Props) {
           disabled={!session}
           className="flex-1 rounded-md bg-gray-50 p-2 pl-5 outline-none disabled:cursor-not-allowed"
           placeholder={
-            session ? 'Create a post by entering a title...' : 'Sign in to post'
+            session
+              ? subreddit
+                ? `Create a post in r/${subreddit}`
+                : 'Create a post by entering a title...'
+              : 'Sign in to post'
           }
           {...register('postTitle', { required: true })}
         />
@@ -140,15 +148,17 @@ function PostBox({}: Props) {
             />
           </div>
 
-          <div className="flex items-center px-2">
-            <p className="min-w-[90px]">Subreddit:</p>
-            <input
-              type="text"
-              placeholder="i.e. reactjs"
-              className="m-2 flex-1 bg-blue-50 p-2 outline-none"
-              {...register('subreddit', { required: true })}
-            />
-          </div>
+          {!subreddit && (
+            <div className="flex items-center px-2">
+              <p className="min-w-[90px]">Subreddit:</p>
+              <input
+                type="text"
+                placeholder="i.e. reactjs"
+                className="m-2 flex-1 bg-blue-50 p-2 outline-none"
+                {...register('subreddit', { required: true })}
+              />
+            </div>
+          )}
 
           {imageBoxOpen && (
             <div className="flex items-center px-2">

@@ -14,6 +14,21 @@ type Post {
   subreddit_id: ID
   title: String
   username: String
+  subreddit: [Subreddit]
+    @materializer(
+      query: "getSubredditListById"
+      arguments: [{ name: "id", field: "subreddit_id" }]
+    )
+  votes: [Vote]
+    @materializer(
+      query: "getVotesByPostId"
+      arguments: [{ name: "post_id", field: "id" }]
+    )
+  comments: [Comment]
+    @materializer(
+      query: "getCommentsByPostId"
+      arguments: [{ name: "post_id", field: "id" }]
+    )
 }
 
 type Subreddit {
@@ -52,7 +67,7 @@ type Query {
   In this example, a single query parameter is passed. If the request to the DB will
   return at most one value you can remove the square brackets from the result.
   """
-  getCommentByPost_id(post_id: ID!): [Comment]
+  getCommentsByPostId(post_id: ID!): [Comment]
     @dbquery(
       type: "postgresql"
       query: """
@@ -64,7 +79,7 @@ type Query {
   In this example, two query parameters are passed. If the request to the DB will
   return at most one value you can remove the square brackets from the result.
   """
-  getCommentByPost_idAndUsername(post_id: ID!, username: String!): [Comment]
+  getCommentsByPostIdAndUsername(post_id: ID!, username: String!): [Comment]
     @dbquery(
       type: "postgresql"
       query: """
@@ -84,6 +99,14 @@ type Query {
       table: "subreddit"
       configuration: "postgresql_config"
     )
+  getSubredditListById(id: ID!): [Subreddit]
+    @dbquery(
+      type: "postgresql"
+      query: """
+      select * from "subreddit" where "id" = $1
+      """
+      configuration: "postgresql_config"
+    )
   getSubredditListByTopic(topic: String!): [Subreddit]
     @dbquery(
       type: "postgresql"
@@ -96,6 +119,15 @@ type Query {
     @dbquery(
       type: "postgresql"
       table: "vote"
+      configuration: "postgresql_config"
+    )
+  getVotesByPostId(post_id: ID!): [Vote]
+    @dbquery(
+      type: "postgresql"
+      query: """
+      select * from "vote" where "post_id" = $1
+      order by "created_at" desc
+      """
       configuration: "postgresql_config"
     )
 }

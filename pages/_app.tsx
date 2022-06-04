@@ -1,7 +1,5 @@
 import '../styles/globals.css'
 
-import type { AppProps } from 'next/app'
-
 import { SessionProvider } from 'next-auth/react'
 
 import { ApolloProvider } from '@apollo/client'
@@ -15,7 +13,7 @@ import client from '../apollo-client'
 function RedditCloneApp({
   Component,
   pageProps: { session, ...pageProps },
-}: AppProps) {
+}: any) {
   return (
     <ApolloProvider client={client}>
       <SessionProvider session={session}>

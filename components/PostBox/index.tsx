@@ -15,7 +15,11 @@ import client from '../../apollo-client'
 import Avatar from './Avatar'
 
 import { INSERT_POST, INSERT_SUBREDDIT } from '../../graphql/mutations'
-import { GET_ALL_POSTS, GET_SUBREDDIT_BY_TOPIC } from '../../graphql/queries'
+import {
+  GET_ALL_POSTS,
+  GET_SUBREDDIT_BY_TOPIC,
+  GET_SUBREDDIT_WITH_LIMIT,
+} from '../../graphql/queries'
 
 type Props = {
   subreddit?: string
@@ -31,6 +35,18 @@ type FormData = {
 function PostBox({ subreddit }: Props) {
   const { data: session } = useSession()
   const [imageBoxOpen, setImageBoxOpen] = useState<boolean>(false)
+  const [addPost] = useMutation(INSERT_POST, {
+    refetchQueries: [
+      GET_ALL_POSTS,
+      'getPostList',
+      GET_SUBREDDIT_BY_TOPIC,
+      'getSubredditListByTopic',
+      GET_SUBREDDIT_WITH_LIMIT,
+      'getSubredditListLimit',
+    ],
+  })
+  const [addSubreddit] = useMutation(INSERT_SUBREDDIT)
+
   const {
     register,
     setValue,
@@ -39,32 +55,32 @@ function PostBox({ subreddit }: Props) {
     formState: { errors },
   } = useForm<FormData>()
 
-  const [addPost] = useMutation(INSERT_POST, {
-    refetchQueries: [GET_ALL_POSTS, 'getPostList'],
-  })
-  const [addSubreddit] = useMutation(INSERT_SUBREDDIT)
-
   const onSubmit = handleSubmit(async (formData: FormData) => {
     const notification = toast.loading('Creating post ...')
-
+    const subredditTopicQuery = subreddit || formData.subreddit
     try {
       const {
         data: { getSubredditListByTopic },
       } = await client.query({
         query: GET_SUBREDDIT_BY_TOPIC,
         variables: {
-          topic: subreddit || formData.subreddit,
+          topic: subredditTopicQuery,
         },
       })
 
       const subredditExists = getSubredditListByTopic.length > 0
+      console.log(
+        `Subreddits found with topic ${subredditTopicQuery}`,
+        getSubredditListByTopic
+      )
       const image = formData.postImage || ''
       if (!subredditExists) {
+        console.log(`Subreddit ${subredditTopicQuery} is new, creating...`)
         const {
           data: { insertSubreddit: newSubreddit },
         } = await addSubreddit({
           variables: {
-            topic: formData.subreddit,
+            topic: subredditTopicQuery,
           },
         })
 
@@ -80,6 +96,7 @@ function PostBox({ subreddit }: Props) {
           },
         })
       } else {
+        console.log(`Using existing subreddit ${subredditTopicQuery}!`)
         const {
           data: { insertPost: newPost },
         } = await addPost({
@@ -109,7 +126,7 @@ function PostBox({ subreddit }: Props) {
 
   return (
     <form
-      className="sticky top-16 md:top-20 z-50 rounded-md border border-gray-300 bg-white p-2"
+      className="sticky top-16 z-50 rounded-md border border-gray-300 bg-white p-2 md:top-20"
       onSubmit={onSubmit}
     >
       <div className="flex items-center space-x-3">

@@ -86,7 +86,7 @@ function PostPage({}: Props) {
           />
           <button
             type="submit"
-            disabled={!watch('comment')}
+            disabled={!watch('comment') || !session}
             className="rounded-full bg-red-500 p-3 font-semibold text-white disabled:cursor-not-allowed disabled:bg-gray-200"
           >
             Comment

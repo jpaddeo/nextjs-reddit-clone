@@ -143,7 +143,9 @@ function Post({ post }: Props) {
             <p className="mt-2 text-sm font-light">{post.body}</p>
           </div>
 
-          <img className="w-full" src={post.image} alt={post.title} />
+          {post.image && (
+            <img className="w-full" src={post.image} alt={post.title} />
+          )}
 
           <div className="flex space-x-4 text-gray-400">
             <div className="post-button">

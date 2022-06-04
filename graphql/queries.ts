@@ -9,6 +9,17 @@ export const GET_SUBREDDIT_BY_TOPIC = gql`
     }
   }
 `
+
+export const GET_SUBREDDIT_WITH_LIMIT = gql`
+  query GetSubredditWithLimitQuery($limit: Int!) {
+    getSubredditListLimit(limit: $limit) {
+      id
+      created_at
+      topic
+    }
+  }
+`
+
 export const GET_ALL_POSTS = gql`
   query GetAllPostsQuery {
     getPostList {

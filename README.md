@@ -1,44 +1,65 @@
-# Next.js + Tailwind CSS Example
+<div align="center">
+<p>
+<h1><b>An educational Reddit clone</b></h1>
+</p>
+</div>
 
+## 📦 Packages:
 
-Next.js + TypeScript
+- ⚒️ [NextJS](https://nextjs.org/) - The React Framework for Production.
+- ⚒️ [Typescript](https://www.typescriptlang.org/) - A superset of JavaScript.
+- ⚒️ [Tailwind CSS](https://tailwindcss.com/) - A utility-first CSS framework packed that can be composed to build any design, directly in your markup.
+- ⚒️ [Supabase](https://supabase.com/) - Open Source Firebase alternative.
+- ⚒️ [GraphQL](https://graphql.org/) - A query language for your API.
+- ⚒️ [Apollo Client](https://www.apollographql.com/) - The best way to ... GraphQL.
+- ⚒️ [StepZen](https://stepzen.com/) - A unique declarative way to build & run any-sized Graph.
+- ⚒️ [SURL](https://surl.jpaddeo.xyz/) - Custom made URL shortener.
+- ⚒️ [Dicebar Avatars](https://avatars.dicebear.com/) - Avatar library for designers and developers.
 
-Tailwind
+## ⚒️ Getting Started:
 
-SURL
+You will need:
 
-Supabase
+- [Nodejs 16+](https://nodejs.org/).
+- [Git](https://git-scm.com/).
 
-GraphQL
+1. Clone the repository:
 
-Stepzen
-
-Apollo Client
-
-https://avatars.dicebear.com/
-
-react-hook-form
-
-react-hot-toast
-
-This example shows how to use [Tailwind CSS](https://tailwindcss.com/) [(v3.0)](https://tailwindcss.com/blog/tailwindcss-v3) with Next.js. It follows the steps outlined in the official [Tailwind docs](https://tailwindcss.com/docs/guides/nextjs).
-
-## Deploy your own
-
-Deploy the example using [Vercel](https://vercel.com?utm_source=github&utm_medium=readme&utm_campaign=next-example) or preview live with [StackBlitz](https://stackblitz.com/github/vercel/next.js/tree/canary/examples/with-tailwindcss)
-
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/git/external?repository-url=https://github.com/vercel/next.js/tree/canary/examples/with-tailwindcss&project-name=with-tailwindcss&repository-name=with-tailwindcss)
-
-## How to use
-
-Execute [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app) with [npm](https://docs.npmjs.com/cli/init) or [Yarn](https://yarnpkg.com/lang/en/docs/cli/create/) to bootstrap the example:
-
-```bash
-npx create-next-app --example with-tailwindcss with-tailwindcss-app
-# or
-yarn create next-app --example with-tailwindcss with-tailwindcss-app
-# or
-pnpm create next-app -- --example with-tailwindcss with-tailwindcss-app
+```
+git clone git@github.com:jpaddeo/nextjs-reddit-clone.git
 ```
 
-Deploy it to the cloud with [Vercel](https://vercel.com/new?utm_source=github&utm_medium=readme&utm_campaign=next-example) ([Documentation](https://nextjs.org/docs/deployment)).
+2. Create a .env file with the following variables:
+
+```
+NEXTAUTH_URL=
+NEXTAUTH_SECRET=
+
+NEXT_PUBLIC_STEPZEN_URL=
+NEXT_PUBLIC_STEPZEN_KEY=
+
+REDDIT_CLIENT_ID=
+REDDIT_CLIENT_SECRET=
+```
+
+3. Install dependencies:
+
+```
+yarn install
+```
+
+4. Run the app:
+
+```
+yarn dev
+```
+
+5. 🥳 Ready! Open the browser and write localhost:3000.
+
+## 🚀 Deployed on Vercel:
+
+- [reddit.jpaddeo.xyz](https://reddit.jpaddeo.xyz/).
+
+## 🔑 License:
+
+- [MIT License](https://github.com/jpaddeo/nextjs-reddit-clone/blob/main/LICENSE).
